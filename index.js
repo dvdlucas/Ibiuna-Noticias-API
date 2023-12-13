@@ -4,6 +4,8 @@ const userRoute = require('./src/routes/userRoutes');
 const authRoute = require('./src/routes/authRoute');
 const connectDatabase = require('./src/database/db');
 
+require('dotenv').config();
+
 connectDatabase();
 const port = 3000;
 

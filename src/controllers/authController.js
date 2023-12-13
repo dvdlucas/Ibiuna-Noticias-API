@@ -18,7 +18,9 @@ const login = async(req, res) => {
         return res.status(400).send({message: "Invalid Password"});
    }
 
-    res.send("Login Sucess");
+   const token = loginService.generateToken(user.id);
+
+    res.send({token});
     } catch(error){
         res.status(500).send(error.message);
     }
