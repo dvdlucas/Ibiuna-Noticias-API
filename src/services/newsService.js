@@ -2,13 +2,19 @@ const News = require('../models/News');
 
 const createService = (body) => News.create(body);
 
-const findAllService = () => News.find();
+const countNews = () => News.countDocuments();
 
-const findByIdService = (id) => News.findById(id);
+const findAllService = (offset, limit) => News.find().sort({ _id: -1}).skip(offset).limit(limit).populate("user");
+
+const findByIdService = (id) => News.findById(id).populate("user");
+
+const topNewsServices = () => News.findOne().sort({ _id: -1 }).populate("user");
 
 
 module.exports = {
     createService,
     findAllService,
     findByIdService,
+    countNews,
+    topNewsServices,
 };
