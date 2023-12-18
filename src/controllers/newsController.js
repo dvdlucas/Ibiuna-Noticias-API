@@ -21,7 +21,7 @@ const create = async (req, res) => {
             res.status(500).send({ messsage: error.message });
         }
 
-    }
+};
 
 
 const findAll = async (req, res) => {
@@ -48,7 +48,7 @@ const findAll = async (req, res) => {
         const previous = offset - limit < 0 ? null : offset - limit;
         const previousUrl = previous != null ? `${currentUrl}?limit=${limit}&offset=${previous}` : null;
 
-        if (news.lenght === 0) {
+        if (news.length === 0) {
             return res.status(400).send({ message: "There are no registered news" });
         }
         res.send({
@@ -72,11 +72,11 @@ const findAll = async (req, res) => {
         } catch(error){
             res.status(500).send({ message: error.message });
         }
-}
+};
 
 const topNews = async (req, res) => {
     try {
-    const news = await newsService.topNewsServices();
+    const news = await newsService.topNewsService();
 
     if(!news){
         return res.status(400).send({ message: "There is no registered post" });
@@ -129,5 +129,57 @@ const findById = async (req, res) => {
 
 };
 
+const searchByTitle = async (req, res) => {
+    try {
+        const { title } = req.query;
+        const news = await newsService.searchByTitleService(title);
+     
+        if (news.length === 0) {
+            return res.status(400).send({ message: "There are no news with this title" });
+        }
+        return res.send({
+            results: news.map(item => ({
+                id: item._id,
+                title: item.title,
+                text: item.text,
+                banner: item.banner,
+                likes: item.likes,
+                comments: item.comments,
+                name: item.user.name,
+                username: item.user.username,
+                userAvatar: item.user.avatar,
+            })),
+        });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};
+const findByUser = async (req, res) => {
+    try {
+        const id = req.userId;
 
-module.exports = { create, findAll, topNews, findById }
+        const news = await newsService.findByUserService(id);
+    
+        
+        if(news.lenght === 0){
+            return res.status(400).send({ message: "There are no news with this user" });
+        }
+        return res.send({
+            results: news.map(item => ({
+            id: item._id,
+            title: item.title,
+            text: item.text,
+            banner: item.banner,
+            likes: item.likes,
+            comments: item.comments,
+            name: item.user.name,
+            username: item.user.username,
+            userAvatar: item.user.avatar,
+        })),
+    });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};
+
+module.exports = { create, findAll, topNews, findById , searchByTitle, findByUser}
