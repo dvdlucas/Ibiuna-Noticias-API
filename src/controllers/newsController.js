@@ -8,7 +8,7 @@ const create = async (req, res) => {
        if (!title || !text || !banner ) {
         return res.status(400).send({ 
             message: "Submit all fields for registration" });
-    }
+        }
 
         await newsService.createService({
             title,
@@ -22,7 +22,6 @@ const create = async (req, res) => {
         }
 
 };
-
 
 const findAll = async (req, res) => {
     try {
@@ -154,6 +153,7 @@ const searchByTitle = async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 };
+
 const findByUser = async (req, res) => {
     try {
         const id = req.userId;
@@ -182,4 +182,54 @@ const findByUser = async (req, res) => {
     }
 };
 
-module.exports = { create, findAll, topNews, findById , searchByTitle, findByUser}
+const update = async (req, res) => {
+    try {
+        const {title, text, banner} = req.body;
+        const {id} = req.params;
+
+    if (!title && !text && !banner ) {
+            return res.status(400).send({ 
+                message: "Submit all fields for registration" });
+    }
+    const news = await newsService.findByIdService(id);
+
+    if(news.user._id != req.userId){
+        return res.status(400).send({ 
+            message: "You didn't update this news" });
+    }
+
+    await newsService.updateService(id, title, text, banner);
+
+    return res.send({
+        message: "News sucessfully updated"
+    });
+
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};
+
+const erase = async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const news = await newsService.findByIdService(id);
+        if(news.user._id != req.userId){
+            return res.status(400).send({ 
+                message: "You didn't delete this post" });
+        }
+
+    await newsService.eraseService(id);
+
+    return res.send({
+        message: "News sucessfully deleted"
+    });
+
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+
+};
+
+
+module.exports = { create, findAll, topNews, findById , searchByTitle, findByUser, update, erase}
