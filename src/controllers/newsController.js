@@ -231,5 +231,57 @@ const erase = async (req, res) => {
 
 };
 
+const likeNews = async (req, res) => {
+    try{
+    const { id } = req.params;
+    const userId = req.userId;
 
-module.exports = { create, findAll, topNews, findById , searchByTitle, findByUser, update, erase}
+    const newsLiked = await newsService.likeNewsService(id, userId);
+        if(!newsLiked){
+            await newsService.deleteLikeService(id, userId);
+            return res.status(200).send({ message: "Like remove sucessfully"});
+        };
+        res.send({ message: "Like done successfully"});
+    } catch (error){
+        res.status(500).send({ message: error.message })
+    }
+};
+
+const AddComment = async (req, res) => {
+    try{
+    const { id } = req.params;
+    const userId = req.userId;
+    const { comment } = req.body;
+
+    if(!comment){
+        return res.status(404).send({ message: "Write a message to comment"}) 
+    }
+        await newsService.addCommentService(id, userId, comment);
+            res.send({ message: "Comment done successfully"});
+    } catch (error){
+        res.status(500).send({ message: error.message })
+    }
+};
+
+const RemoveComment = async (req, res) => {
+    try{
+    const userId = req.userId;
+    const { idNews, idComment } = req.params;
+ 
+       const commentDelete = await newsService.RemoveCommentService(idNews, userId, idComment);
+
+       const commentFinder = commentDelete.comments.find( (comment) => comment.idComment === idComment);
+
+       if(commentFinder.userId !== userId){
+        return res.status(400).send({
+            message: "You cant delete this comments"
+        })
+       }
+            res.send({ message: "Comment removed successfully"});
+    } catch (error){
+        res.status(500).send({ message: error.message })
+    }
+};
+
+
+module.exports = { create, findAll, topNews, findById , searchByTitle, findByUser, update, erase, likeNews, AddComment, RemoveComment}

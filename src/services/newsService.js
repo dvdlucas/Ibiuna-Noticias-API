@@ -23,6 +23,30 @@ const updateService = (id, title, text, banner) => News.findOneAndUpdate({ _id: 
 
 const eraseService = (id) => News.findByIdAndDelete({ _id: id});
 
+const likeNewsService = (idNews, userId) => News.findOneAndUpdate(
+    { _id: idNews, "likes.userId": {$nin: [userId]} }, 
+    {$push: {likes: {userId, created: new Date()}}}
+);
+
+const deleteLikeService = (idNews, userId) => News.findOneAndUpdate(
+    {_id: idNews},
+    { $pull: {likes: {userId}}}
+);
+
+const addCommentService = (idNews, userId, comment) => {
+    const idComment = Math.floor(Date.now() * Math.random()).toString(15);
+    return News.findOneAndUpdate({_id: idNews},
+     {$push: {comments: {idComment, userId, comment, createAt: new Date()}}}   );
+}
+
+const RemoveCommentService = (idNews, userId, idComment) =>
+     News.findOneAndUpdate(
+        {_id: idNews},
+        {$pull: {comments: {idComment, userId}}}
+     );
+
+
+
 module.exports = {
     createService,
     findAllService,
@@ -33,4 +57,8 @@ module.exports = {
     findByUserService,
     updateService,
     eraseService,
+    likeNewsService,
+    deleteLikeService,
+    addCommentService,
+    RemoveCommentService,
 };
