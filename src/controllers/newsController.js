@@ -272,6 +272,11 @@ const RemoveComment = async (req, res) => {
 
        const commentFinder = commentDelete.comments.find( (comment) => comment.idComment === idComment);
 
+       if(!commentFinder){
+        return res.status(404).send({ message: "Comment  dont  exists!"})
+       }
+
+
        if(commentFinder.userId !== userId){
         return res.status(400).send({
             message: "You cant delete this comments"
