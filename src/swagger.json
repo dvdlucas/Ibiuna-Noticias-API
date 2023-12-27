@@ -10,6 +10,10 @@
   },
   "servers": [
     {
+      "url": "https://ibiuna-noticias.onrender.com",
+      "description": "Nuvem"
+    },
+    {
       "url": "http://localhost:3000",
       "description": "Local"
     }
