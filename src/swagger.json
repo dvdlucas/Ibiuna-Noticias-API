@@ -19,7 +19,7 @@
     }
   ],
   "paths": {
-    "/user/create": {
+    "/user/": {
       "post": {
         "summary": "Create a new user",
         "description": "Route responsible for creating a new user",
@@ -179,7 +179,7 @@
         }
       }
     },
-    "/auth/login": {
+    "/auth/": {
       "post": {
         "summary": "Login to Ibiuna noticiais",
         "description": "Route responsible for logging in a registered user",
@@ -211,7 +211,7 @@
         }
       }
     },
-    "/news/create": {
+    "/news/": {
       "post": {
         "summary": "Create a new post",
         "description": "Route responsible for creating a new Post",
@@ -259,7 +259,7 @@
         }
       }
     },
-    "/post": {
+    "/news/?limit=5&offset=0/": {
       "get": {
         "summary": "Search all posts",
         "description": "Route responsible for fetching all posts",
@@ -300,7 +300,7 @@
         }
       }
     },
-    "/news/search": {
+    "/news/top": {
       "get": {
         "summary": "Search posts by title",
         "description": "Route responsible for fetching the posts that match the title sent via query params",
