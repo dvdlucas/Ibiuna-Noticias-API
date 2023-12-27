@@ -211,7 +211,7 @@
         }
       }
     },
-    "/post/create": {
+    "/news/create": {
       "post": {
         "summary": "Create a new post",
         "description": "Route responsible for creating a new Post",
@@ -221,10 +221,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Post"
+                "$ref": "#/components/schemas/News"
               },
               "examples": {
-                "Post": {
+                "news": {
                   "value": {
                     "user": "",
                     "banner": "https://labs.tadigital.com/wp-content/uploads/2017/07/ES6-banner.jpg",
@@ -263,7 +263,7 @@
       "get": {
         "summary": "Search all posts",
         "description": "Route responsible for fetching all posts",
-        "tags": ["Post"],
+        "tags": ["News"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -291,7 +291,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Post"
+                    "$ref": "#/components/schemas/News"
                   }
                 }
               }
@@ -300,7 +300,7 @@
         }
       }
     },
-    "/post/search": {
+    "/news/search": {
       "get": {
         "summary": "Search posts by title",
         "description": "Route responsible for fetching the posts that match the title sent via query params",
@@ -328,7 +328,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Post"
+                    "$ref": "#/components/schemas/News"
                   }
                 }
               }
@@ -337,7 +337,7 @@
         }
       }
     },
-    "/post/{id}": {
+    "/news/{id}": {
       "patch": {
         "summary": "Search post by id",
         "description": "Route responsible for fetching post by id",
@@ -373,7 +373,7 @@
         }
       }
     },
-    "/post/upadate/{id}": {
+    "/news/update/{id}": {
       "patch": {
         "summary": "Update a post",
         "description": "Route responsible for updating a Post",
@@ -392,7 +392,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Post"
+                "$ref": "#/components/schemas/News"
               },
               "examples": {
                 "Post": {
@@ -427,7 +427,7 @@
         }
       }
     },
-    "/post/delete/{id}": {
+    "/news/delete/{id}": {
       "delete": {
         "summary": "Delete a post",
         "description": "Route responsible for deleting a Post",
@@ -455,7 +455,7 @@
         }
       }
     },
-    "/post/{id}/like": {
+    "/news/{id}/like": {
       "patch": {
         "summary": "Like a post",
         "description": "Route responsible for liking a post",
@@ -483,7 +483,7 @@
         }
       }
     },
-    "/post/{id}/comment": {
+    "/news/{id}/comment": {
       "patch": {
         "summary": "Comment on a post",
         "description": "Route responsible for commenting on a post",
