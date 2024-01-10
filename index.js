@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+app.use(cors());
 const userRoute = require('./src/routes/userRoutes');
 const authRoute = require('./src/routes/authRoute');
 const newsRoute = require('./src/routes/newsRoute');
