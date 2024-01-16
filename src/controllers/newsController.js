@@ -34,7 +34,7 @@ const findAll = async (req, res) => {
             limit = 5;
         }
         if(!offset){
-            offset = 0;
+            offset = 1;
         }
 
         const news = await newsService.findAllService(offset, limit);
