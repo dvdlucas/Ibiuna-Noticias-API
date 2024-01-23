@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+const loginService = require('../services/authService');
 
 const create = async (req, res) => {
     try {
@@ -13,9 +14,10 @@ const create = async (req, res) => {
     if (!user) {
         return res.status(400).send({ message: "Error creating User" });
     }
-
+    const token = loginService.generateToken(user.id);
     res.status(201).send({
         message: "User created sucessfully",
+        token: token,
         user: {
             id: user._id,
             name,
