@@ -13,7 +13,7 @@ const authMiddleware = (req, res, next) =>{
     const [schema, token] = parts;
 
     if(parts.length !== 2 ){
-        return res.send(401);
+        return res.send(401).send({ message: "Invalid Password!" });
     }
 
     if(schema != "Bearer"){
