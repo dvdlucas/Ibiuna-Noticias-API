@@ -2,16 +2,18 @@ const mongoose = require('mongoose');
 const userService = require('../services/userService');
 
 const validId = (req, res, next) =>{
-    try {
-    const id = req.params.id;
-
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(400).send({ message: "Invalid ID Error" });
+    let idParam;
+    if(!req.params.id){
+        req.params.id = req.userId;
+        idParam = req.params.id;
+    } else {
+        idParam = req.params.id;
     }
-    next();
-    } catch (error){
-        res.status(500).send({ message: error.message });
-    }
+    
+    if (!mongoose.Types.ObjectId.isValid(idParam)) {
+        return res.status(400).send({ message: "Invalid id!" });
+      }
+      next();
 };
 
 const validUser = async (req, res, next) =>{

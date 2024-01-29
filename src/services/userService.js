@@ -1,10 +1,24 @@
+const UserRepositories  = require('../Repositories/UserRepositories');
 const User = require('../models/User');
 
 const createService = (body) => User.create(body);
 
 const findAllService = () => User.find();
 
-const findByIdService = (id) => User.findById(id);
+async function findUserByIdService(userIdParam, userIdLogged){
+    let idParam;
+    if(!userIdParam){
+        userIdParam = userIdLogged;
+        idParam = userIdParam;
+    } else {
+        idParam = userIdParam;
+    }
+    if(!idParam)
+    throw new Error("Send an id in the parameters to search for the user");
+    const user = await UserRepositories.findByIdUserRepository(idParam);
+    if(!user) throw new Error("user not found");
+    return user;
+}
 
 const updateService = (
     id,
@@ -22,6 +36,6 @@ const updateService = (
 module.exports = {
     createService,
     findAllService,
-    findByIdService,
+    findUserByIdService,
     updateService,
 };

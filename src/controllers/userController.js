@@ -37,24 +37,18 @@ const findAll = async (req, res) => {
     }
 };
 
-const findById = async (req, res) => {
+async function findUserByIdController(req, res){
     try {
-        const userId = req.userId;
-        if (!userId) {
-            return res.status(401).send({ message: "User ID not found in the request." });
+        const user = await userService.findUserByIdService(
+            req.params.id,
+            req.userId
+          );
+          return res.send(user);
+        } catch (e) {
+          return res.status(400).send(e.message);
         }
-    const user = await userService.findByIdService(
-        req.params.id,
-        req.userId
-    );
-    if (!user) {
-        return res.status(404).send({ message: "User not found." });
     }
-    return res.send(user)
-    }catch (error){
-        res.status(500).send({ message: error.message });
-    }
-};
+
 
 const update = async (req, res) => {
     try {
@@ -84,4 +78,4 @@ const update = async (req, res) => {
 
 
 
-module.exports = { create, findAll, findById, update };
+module.exports = { create, findAll, findUserByIdController, update };
