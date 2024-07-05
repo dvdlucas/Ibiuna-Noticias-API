@@ -20,7 +20,7 @@ async function findUserByIdService(userIdParam, userIdLogged){
     return user;
 }
 
-const updateService = async (
+const updateService = (
     id,
     name,
     username,
@@ -28,23 +28,10 @@ const updateService = async (
     password,
     avatar,
     background,
-) => {
-    try {
-        const updatedUser = await User.findOneAndUpdate(
-            { _id: id },
-            { name, username, email, password, avatar, background },
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedUser) {
-            throw new Error("User not found");
-        }
-
-        return updatedUser;
-    } catch (error) {
-        throw new Error("Error updating user: " + error.message);
-    }
-};
+) => User.findOneAndUpdate(
+    { _id: id }, 
+    { name,username,email,password,avatar,background,}
+    );
 
 module.exports = {
     createService,
